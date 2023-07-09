@@ -73,13 +73,19 @@ export default {
                 const currentOperation = this.operation;
 
                 try{
-                    this.values[0] = eval(`
+                    let result = eval(`
                         ${this.values[0]} ${currentOperation} ${this.values[1]}
                     `);
-                    if (isNaN(this.values[0]) || !isFinite(this.values[0])) {
-                    this.clearMemory()
-                    return
+                    if (isNaN(result) || !isFinite(result)) {
+                        this.clearMemory()
+                        return
                     }
+                    if(result.toString().length > 6){
+                        result = result.toFixed(6);
+                    }
+
+                    this.values[0] = result;
+
                 } catch(e){
                     this.$emit('onError', e);
                 }
